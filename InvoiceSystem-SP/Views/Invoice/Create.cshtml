@@ -1,0 +1,230 @@
+﻿@using Newtonsoft.Json
+@model InvoiceSystem_SP.ViewModels.InvoiceCreationViewModel
+
+@{
+    ViewBag.Title = "Create Invoice";
+}
+
+<style>
+    .line-item-row {
+        margin-top: 10px;
+        border-bottom: 1px dashed #ccc;
+        padding-bottom: 10px;
+    }
+
+    .table-container {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+</style>
+
+<h2>Create New Invoice</h2>
+
+@using (Html.BeginForm("Create", "Invoice", FormMethod.Post, new { id = "invoiceForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Invoice Header Details</h4>
+        <hr />
+
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+        {
+            <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+        }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CustomerID, "Customer", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.CustomerID, (SelectList)ViewBag.CustomerList,
+                                      "--- Select Customer ---", new { @class = "form-control", id = "drpCustomer" })
+                <span id="customerError" class="text-danger"></span>
+            </div>
+        </div>
+
+        <br />
+
+        <h4>Product Line Items</h4>
+        <div class="table-container">
+            <table class="table table-bordered" id="lineItemsTable">
+                <thead>
+                    <tr>
+                        <th style="width: 35%;">Product</th>
+                        <th style="width: 15%;">Unit Price</th>
+                        <th style="width: 15%;">Quantity</th>
+                        <th style="width: 20%;">Sub Total</th>
+                        <th style="width: 15%;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.LineItems != null && Model.LineItems.Count > 0)
+                    {
+                        for (int i = 0; i < Model.LineItems.Count; i++)
+                        {
+                            @Html.Partial("_InvoiceLineItemRow", Model.LineItems[i], new ViewDataDictionary {
+                                { "index", i },
+                                { "AvailableProducts", Model.AvailableProducts }
+                            })
+                        }
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" style="text-align: right;"><strong>Total Amount:</strong></td>
+                        <td><input type="text" id="txtTotalAmount" class="form-control" readonly value="0.00" /></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="button" id="btnAddItem" class="btn btn-info">Add Product</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create Invoice" class="btn btn-success btn-lg" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        @*var productList = @Html.Raw(Json.Encode(Model.AvailableProducts));*@
+        var productList = @Html.Raw(JsonConvert.SerializeObject(Model.AvailableProducts));
+        var itemIndex = @(Model.LineItems.Count > 0 ? Model.LineItems.Max(i => i.ProductID) : 0);
+
+        function calculateSubtotal(row) {
+            var quantity = parseFloat($(row).find('.txtQuantity').val()) || 0;
+            var price = parseFloat($(row).find('.txtPrice').val()) || 0;
+            var subtotal = (quantity * price).toFixed(2);
+
+            $(row).find('.txtSubTotal').val(subtotal);
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            var total = 0;
+            $('#lineItemsTable tbody tr').each(function () {
+                var subtotalVal = parseFloat($(this).find('.txtSubTotal').val()) || 0;
+                total += subtotalVal;
+            });
+            $('#txtTotalAmount').val(total.toFixed(2));
+        }
+
+
+        function addRow(productId = 0, name = '', price = 0, quantity = 1, subtotal = 0) {
+            itemIndex++;
+            var newRow = '<tr>' +
+                // Product Dropdown
+                '<td>' +
+                    '<select name="LineItems[' + itemIndex + '].ProductID" class="form-control drpProduct" data-index="' + itemIndex + '">' +
+                    '<option value="">--- Select Product ---</option>' +
+                    '</select>' +
+                '</td>' +
+                // Price (Readonly/Hidden Input)
+                '<td><input type="text" name="LineItems[' + itemIndex + '].UnitPrice" class="form-control txtPrice" readonly value="' + price.toFixed(2) + '"/></td>' +
+                // Quantity
+                '<td><input type="number" name="LineItems[' + itemIndex + '].Quantity" class="form-control txtQuantity" value="' + quantity + '" min="1" /></td>' +
+                // Sub Total
+                '<td><input type="text" name="LineItems[' + itemIndex + '].SubTotal" class="form-control txtSubTotal" readonly value="' + subtotal.toFixed(2) + '"/></td>' +
+                // Action Button
+                '<td><button type="button" class="btn btn-danger btn-sm btnRemove">Remove</button></td>' +
+                '</tr>';
+
+            $('#lineItemsTable tbody').append(newRow);
+
+            // Populate the newly created dropdown with product options
+            var $newDropdown = $('#lineItemsTable tbody tr:last').find('.drpProduct');
+            $.each(productList, function (i, product) {
+                $newDropdown.append($('<option>', {
+                    value: product.ProductID,
+                    text: product.Name,
+                    'data-price': product.Price // Store price in data attribute for easy lookup
+                }));
+            });
+
+            if (productId > 0) {
+                $newDropdown.val(productId);
+            }
+        }
+
+        // ----------------- 3. Event Handlers -----------------
+
+        $(document).ready(function () {
+            // Initial load: Add one row if the table is empty
+            if ($('#lineItemsTable tbody tr').length === 0) {
+                addRow();
+            } else {
+                // If rows were re-rendered (POST error), calculate total
+                calculateTotal();
+            }
+
+            // Event for adding a new item row
+            $('#btnAddItem').click(function () {
+                addRow();
+            });
+
+            // Event for removing a line item row (Delegated event)
+            $('#lineItemsTable').on('click', '.btnRemove', function () {
+                $(this).closest('tr').remove();
+                calculateTotal();
+            });
+
+            // Event when product selection changes (Delegated event)
+            $('#lineItemsTable').on('change', '.drpProduct', function () {
+                var selectedOption = $(this).find('option:selected');
+                var price = parseFloat(selectedOption.data('price')) || 0;
+                var row = $(this).closest('tr');
+
+                // Set Unit Price
+                row.find('.txtPrice').val(price.toFixed(2));
+
+                // Recalculate based on new price
+                calculateSubtotal(row);
+            });
+
+            // Event when quantity changes (Delegated event)
+            $('#lineItemsTable').on('input', '.txtQuantity', function () {
+                var row = $(this).closest('tr');
+                calculateSubtotal(row);
+            });
+
+            // ----------------- 4. Form Submission Validation -----------------
+            $('#invoiceForm').submit(function (e) {
+                var isValid = true;
+                $('#customerError').text('');
+
+                // Customer Validation
+                if ($('#drpCustomer').val() === "") {
+                    $('#customerError').text('Please select a Customer.');
+                    isValid = false;
+                }
+
+                // Line Items Validation
+                var itemCount = 0;
+                $('#lineItemsTable tbody tr').each(function () {
+                    var productId = $(this).find('.drpProduct').val();
+                    var quantity = parseFloat($(this).find('.txtQuantity').val()) || 0;
+
+                    if (productId && quantity > 0) {
+                        itemCount++;
+                    }
+                });
+
+                if (itemCount === 0) {
+                    alert('Please add at least one product with a valid quantity.');
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+}

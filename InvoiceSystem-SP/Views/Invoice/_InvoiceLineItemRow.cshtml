@@ -1,0 +1,29 @@
+﻿@model InvoiceSystem_SP.Models.InvoiceLineItem
+@{
+    var index = (int)ViewData["index"];
+    var availableProducts = (List<InvoiceSystem_SP.Models.Product>)ViewData["AvailableProducts"];
+}
+
+<tr>
+    <td>
+        <select name="LineItems[@index].ProductID" class="form-control drpProduct" data-index="@index">
+            <option value="">--- Select Product ---</option>
+
+            @if (availableProducts != null)
+            {
+                foreach (var product in availableProducts)
+                {
+                    <option value="@product.ProductID"
+                            data-price="@product.Price"
+                            selected="@(Model.ProductID == product.ProductID ? "selected" : null)">
+                        @product.Name
+                    </option>
+                }
+            }
+        </select>
+    </td>
+    <td>@Html.TextBoxFor(model => model.UnitPrice, new { @class = "form-control txtPrice", @readonly = "readonly", Value = Model.UnitPrice.ToString("F2") })</td>
+    <td>@Html.TextBoxFor(model => model.Quantity, new { @class = "form-control txtQuantity", type = "number", min = "0", Value = Model.Quantity.ToString() })</td>
+    <td>@Html.TextBoxFor(model => model.SubTotal, new { @class = "form-control txtSubTotal", @readonly = "readonly", Value = Model.SubTotal.ToString("F2") })</td>
+    <td><button type="button" class="btn btn-danger btn-sm btnRemove">Remove</button></td>
+</tr>

@@ -1,0 +1,99 @@
+﻿
+@model InvoiceSystem_SP.Models.Customer
+
+@{
+    ViewBag.Title = "Create New Customer";
+}
+
+<h2>Create New Customer</h2>
+
+@using (Html.BeginForm("Create", "Customer", FormMethod.Post, new { id = "customerForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Customer Basic Information</h4>
+        <hr />
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", id = "txtName" } })
+                <span id="nameError" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", id = "txtEmail" } })
+                <span id="emailError" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", id = "txtPhone" } })
+                <span id="phoneError" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create Customer" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+---
+
+@*### Client-Side Validation Logic (jQuery/JavaScript)
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#customerForm').submit(function (e) {
+
+                var isValid = true;
+
+                // Reset all error messages
+                $('.text-danger').text('');
+
+                // --- 1. Name Validation ---
+                if ($('#txtName').val().trim() === '') {
+                    $('#nameError').text('Customer Name is required.');
+                    isValid = false;
+                }
+
+                // --- 2. Email Validation ---
+                var email = $('#txtEmail').val().trim();
+                var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (email === '') {
+                    $('#emailError').text('Email Address is required.');
+                    isValid = false;
+                } else if (!emailRegex.test(email)) {
+                    $('#emailError').text('Please use a valid email format.');
+                    isValid = false;
+                }
+
+                // --- 3. Phone Validation ---
+                var phone = $('#txtPhone').val().trim();
+                // Check if it's empty OR contains non-digit characters OR less than 10 digits
+                if (phone === '') {
+                    $('#phoneError').text('Phone Number is required.');
+                    isValid = false;
+                } else if (!/^\d+$/.test(phone) || phone.length < 10) {
+                    $('#phoneError').text('Please enter a valid phone number (min 10 digits).');
+                    isValid = false;
+                }
+
+                // Prevent form submission if any validation fails
+                if (!isValid) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+}*@
