@@ -9,6 +9,10 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
+                <Value>Invoice ID:  </Value>
+                <Style />
+              </TextRun>
+              <TextRun>
                 <Label>Invoice ID:</Label>
                 <Value>=First(Fields!InvoiceID.Value, "Invoice")</Value>
                 <Style />
@@ -18,10 +22,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>InvoiceID</rd:DefaultName>
-        <Top>0.30778in</Top>
-        <Left>5.09944in</Left>
+        <Top>0.06944in</Top>
+        <Left>4.66194in</Left>
         <Height>0.25in</Height>
-        <Width>1.18056in</Width>
+        <Width>1.61806in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -39,8 +43,12 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Label>Customer ID :</Label>
-                <Value>=First(Fields!CustomerID.Value, "Invoice")</Value>
+                <Value>Name:  </Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Label>Customer Name:</Label>
+                <Value>=First(Fields!CustomerName.Value, "Invoice")</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -48,10 +56,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>CustomerID</rd:DefaultName>
-        <Top>0.30778in</Top>
-        <Left>0.23139in</Left>
+        <Top>0.06944in</Top>
+        <Left>0.11333in</Left>
         <Height>0.25in</Height>
-        <Width>1in</Width>
+        <Width>3.68749in</Width>
         <ZIndex>1</ZIndex>
         <Style>
           <Border>
@@ -70,6 +78,10 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
+                <Value>Date : </Value>
+                <Style />
+              </TextRun>
+              <TextRun>
                 <Label>Date</Label>
                 <Value>=First(Fields!InvoiceDate.Value, "Invoice")</Value>
                 <Style />
@@ -79,10 +91,10 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>InvoiceDate</rd:DefaultName>
-        <Top>0.62722in</Top>
-        <Left>5.09944in</Left>
+        <Top>0.33333in</Top>
+        <Left>4.66194in</Left>
         <Height>0.25in</Height>
-        <Width>1in</Width>
+        <Width>1.61806in</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -101,6 +113,10 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
+                <Value>Total </Value>
+                <Style />
+              </TextRun>
+              <TextRun>
                 <Label>Total</Label>
                 <Value>=First(Fields!TotalAmount.Value, "Invoice")</Value>
                 <Style />
@@ -110,7 +126,7 @@
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>TotalAmount</rd:DefaultName>
-        <Top>1.82167in</Top>
+        <Top>1.96056in</Top>
         <Left>4.24527in</Left>
         <Height>0.25in</Height>
         <Width>1in</Width>
@@ -154,7 +170,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Product ID</Value>
+                              <Value>Product Name</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -272,21 +288,21 @@
               <TablixCells>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="ProductID">
+                    <Textbox Name="ProductName">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!ProductID.Value</Value>
+                              <Value>=Fields!ProductName.Value</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>ProductID</rd:DefaultName>
+                      <rd:DefaultName>ProductName</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>LightGrey</Color>
@@ -413,7 +429,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>InvoiceDetail</DataSetName>
-        <Top>1.17583in</Top>
+        <Top>1.32167in</Top>
         <Left>1.24527in</Left>
         <Height>0.5in</Height>
         <Width>4in</Width>
@@ -424,6 +440,76 @@
           </Border>
         </Style>
       </Tablix>
+      <Textbox Name="CustomerEmail">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Email: </Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Label>Customer Email</Label>
+                <Value>=First(Fields!CustomerEmail.Value, "Invoice")</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>CustomerEmail</rd:DefaultName>
+        <Top>0.31944in</Top>
+        <Left>0.11333in</Left>
+        <Height>0.25in</Height>
+        <Width>3.68749in</Width>
+        <ZIndex>5</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="CustomerPhone">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Phone: </Value>
+                <Style />
+              </TextRun>
+              <TextRun>
+                <Label>Customer Phone</Label>
+                <Value>=First(Fields!CustomerPhone.Value, "Invoice")</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>CustomerPhone</rd:DefaultName>
+        <Top>0.56944in</Top>
+        <Left>0.11333in</Left>
+        <Height>0.25in</Height>
+        <Width>3.68749in</Width>
+        <ZIndex>6</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
     </ReportItems>
     <Height>2.28in</Height>
     <Style />
@@ -527,10 +613,6 @@
           <DataField>InvoiceID</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
-        <Field Name="CustomerID">
-          <DataField>CustomerID</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
         <Field Name="InvoiceDate">
           <DataField>InvoiceDate</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
@@ -538,6 +620,18 @@
         <Field Name="TotalAmount">
           <DataField>TotalAmount</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CustomerName">
+          <DataField>CustomerName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerEmail">
+          <DataField>CustomerEmail</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerPhone">
+          <DataField>CustomerPhone</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
@@ -578,6 +672,10 @@
         <Field Name="SubTotal">
           <DataField>SubTotal</DataField>
           <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ProductName">
+          <DataField>ProductName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
