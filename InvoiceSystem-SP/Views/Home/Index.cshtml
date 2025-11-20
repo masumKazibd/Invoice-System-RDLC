@@ -1,33 +1,66 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Dashboard | Simple Invoice System";
 }
 
 <main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
+    <section class="jumbotron text-center bg-light p-5" aria-labelledby="appTitle">
+        <h1 id="appTitle" class="display-4">Invoice System Dashboard</h1>
+        <p class="lead">Welcome, Manage Products, Customers, and Invoicing Records efficiently.</p>
+
     </section>
 
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    <hr />
+
+    <h2 class="text-center mb-4">Core Application Tasks</h2>
+
+    <div class="row text-center">
+
+        <section class="col-md-4 mb-4" aria-labelledby="customerTitle">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h3 id="customerTitle" class="card-title text-primary">1. Create Customer</h3>
+                    <p class="card-text">Add new customer details with required validation.</p>
+                    <p>
+                        @Html.ActionLink("Add New Customer", "Create", "Customer", null, new { @class = "btn btn-outline-primary" })
+                    </p>
+                </div>
+            </div>
         </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+
+        <section class="col-md-4 mb-4" aria-labelledby="productTitle">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h3 id="productTitle" class="card-title text-success">2. Create Product</h3>
+                    <p class="card-text">Define products and set their unit prices.</p>
+                    <p>
+                        @Html.ActionLink("Add New Product", "Create", "Product", null, new { @class = "btn btn-outline-success" })
+                    </p>
+                </div>
+            </div>
         </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+
+        <section class="col-md-4 mb-4" aria-labelledby="invoiceTitle">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h3 id="invoiceTitle" class="card-title text-warning">3. Sell & Invoice</h3>
+                    <p class="card-text">Generate a new invoice by selling products to a customer.</p>
+                    <p>
+                        @Html.ActionLink("Create New Invoice", "Create", "Invoice", null, new { @class = "btn btn-warning" })
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="col-md-4 offset-md-4 mb-4" aria-labelledby="listTitle">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h3 id="listTitle" class="card-title text-info">4. View Invoice History</h3>
+                    <p class="card-text">Search and view all generated invoices (Customer-wise filter).</p>
+                    <p>
+                        @Html.ActionLink("View Invoice List", "List", "Invoice", null, new { @class = "btn btn-outline-info" })
+                    </p>
+                </div>
+            </div>
         </section>
     </div>
 </main>
