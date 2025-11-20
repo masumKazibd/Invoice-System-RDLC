@@ -125,7 +125,7 @@ namespace InvoiceSystem_SP.Repository
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@SearchTerm", (object)searchTerm ?? DBNull.Value); // Null চেক করা
+                    cmd.Parameters.AddWithValue("@SearchTerm", (object)searchTerm ?? DBNull.Value); 
 
                     conn.Open();
 

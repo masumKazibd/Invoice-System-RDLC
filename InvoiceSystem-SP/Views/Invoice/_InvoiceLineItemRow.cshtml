@@ -6,6 +6,8 @@
 
 <tr>
     <td>
+        <input type="hidden" name="LineItems.Index" value="@index" />
+
         <select name="LineItems[@index].ProductID" class="form-control drpProduct" data-index="@index">
             <option value="">--- Select Product ---</option>
 
@@ -22,8 +24,36 @@
             }
         </select>
     </td>
-    <td>@Html.TextBoxFor(model => model.UnitPrice, new { @class = "form-control txtPrice", @readonly = "readonly", Value = Model.UnitPrice.ToString("F2") })</td>
-    <td>@Html.TextBoxFor(model => model.Quantity, new { @class = "form-control txtQuantity", type = "number", min = "0", Value = Model.Quantity.ToString() })</td>
-    <td>@Html.TextBoxFor(model => model.SubTotal, new { @class = "form-control txtSubTotal", @readonly = "readonly", Value = Model.SubTotal.ToString("F2") })</td>
-    <td><button type="button" class="btn btn-danger btn-sm btnRemove">Remove</button></td>
+
+    <td>
+        @Html.TextBoxFor(model => model.UnitPrice, new
+        {
+            @class = "form-control txtPrice",
+            @readonly = "readonly",
+            Value = Model.UnitPrice.ToString("F2")
+        })
+    </td>
+
+    <td>
+        @Html.TextBoxFor(model => model.Quantity, new
+        {
+            @class = "form-control txtQuantity",
+            type = "number",
+            min = "1",
+            Value = Model.Quantity.ToString()
+        })
+    </td>
+
+    <td>
+        @Html.TextBoxFor(model => model.SubTotal, new
+        {
+            @class = "form-control txtSubTotal",
+            @readonly = "readonly",
+            Value = Model.SubTotal.ToString("F2")
+        })
+    </td>
+
+    <td>
+        <button type="button" class="btn btn-danger btn-sm btnRemove">Remove</button>
+    </td>
 </tr>
