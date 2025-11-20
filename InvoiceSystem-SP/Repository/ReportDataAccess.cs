@@ -31,11 +31,11 @@ namespace InvoiceSystem_SP.Repository
 
                             if (ds.Tables.Count > 0)
                             {
-                                ds.Tables[0].TableName = "InvoiceHeader";
+                                ds.Tables[0].TableName = "Invoice";
                             }
                             if (ds.Tables.Count > 1)
                             {
-                                ds.Tables[1].TableName = "InvoiceDetails";
+                                ds.Tables[1].TableName = "InvoiceDetail";
                             }
                         }
                         catch (SqlException ex)

@@ -19,13 +19,12 @@ namespace InvoiceSystem_SP.Reports
                         ReportDataAccess dataAccess = new ReportDataAccess();
                         DataSet ds = dataAccess.GetInvoiceReportData(invoiceId);
 
-                        ReportViewer1.LocalReport.ReportPath = Server.MapPath("~/InvoiceReport.rdlc");
-
+                        ReportViewer1.LocalReport.ReportPath = Server.MapPath("~/Reports/InvoiceReport.rdlc");
                         ReportViewer1.LocalReport.DataSources.Clear();
 
-                        ReportDataSource dsHeader = new ReportDataSource("dsHeader", ds.Tables["InvoiceHeader"]);
+                        ReportDataSource dsHeader = new ReportDataSource("Invoice", ds.Tables["Invoice"]);
 
-                        ReportDataSource dsDetails = new ReportDataSource("dsDetails", ds.Tables["InvoiceDetails"]);
+                        ReportDataSource dsDetails = new ReportDataSource("InvoiceDetail", ds.Tables["InvoiceDetail"]);
 
                         ReportViewer1.LocalReport.DataSources.Add(dsHeader);
                         ReportViewer1.LocalReport.DataSources.Add(dsDetails);
