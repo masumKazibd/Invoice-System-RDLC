@@ -1,55 +1,84 @@
-﻿
-@model InvoiceSystem_SP.Models.Customer
+﻿@model InvoiceSystem_SP.Models.Customer
 
 @{
     ViewBag.Title = "Create New Customer";
 }
 
-<h2>Create New Customer</h2>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-header bg-primary text-white border-0 rounded-top-3">
+                    <h4 class="mb-0">Create New Customer</h4>
+                    <small class="d-block mt-1 text-light opacity-75">
+                        Add a customer to use in your invoices.
+                    </small>
+                </div>
 
-@using (Html.BeginForm("Create", "Customer", FormMethod.Post, new { id = "customerForm" }))
-{
-    @Html.AntiForgeryToken()
+                <div class="card-body p-4">
+                    @using (Html.BeginForm("Create", "Customer", FormMethod.Post, new { id = "customerForm" }))
+                    {
+                        @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Customer Basic Information</h4>
-        <hr />
+                        <div class="mb-3">
+                            @Html.LabelFor(model => model.Name, new { @class = "form-label fw-semibold" })
+                            @Html.EditorFor(model => model.Name, new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @class = "form-control",
+                                    id = "txtName",
+                                    placeholder = "e.g. David Johnson"
+                                }
+                            })
+                            <span id="nameError" class="text-danger small d-block mt-1"></span>
+                        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", id = "txtName" } })
-                <span id="nameError" class="text-danger"></span>
-            </div>
-        </div>
+                        <div class="mb-3">
+                            @Html.LabelFor(model => model.Email, new { @class = "form-label fw-semibold" })
+                            @Html.EditorFor(model => model.Email, new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @class = "form-control",
+                                    id = "txtEmail",
+                                    placeholder = "name@example.com",
+                                    type = "email"
+                                }
+                            })
+                            <span id="emailError" class="text-danger small d-block mt-1"></span>
+                        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", id = "txtEmail" } })
-                <span id="emailError" class="text-danger"></span>
-            </div>
-        </div>
+                        <div class="mb-3">
+                            @Html.LabelFor(model => model.Phone, new { @class = "form-label fw-semibold" })
+                            @Html.EditorFor(model => model.Phone, new
+                            {
+                                htmlAttributes = new
+                                {
+                                    @class = "form-control",
+                                    id = "txtPhone",
+                                    placeholder = "e.g. 017XXXXXXXX"
+                                }
+                            })
+                            <span id="phoneError" class="text-danger small d-block mt-1"></span>
+                        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", id = "txtPhone" } })
-                <span id="phoneError" class="text-danger"></span>
-            </div>
-        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <a href="@Url.Action("Index", "Home")" class="btn btn-outline-secondary">
+                                ← Back
+                            </a>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create Customer" class="btn btn-primary" />
+                            <button type="submit" class="btn btn-primary px-4">
+                                Create Customer
+                            </button>
+                        </div>
+                    }
+                </div>
+
             </div>
         </div>
     </div>
-}
-
----
-
-@*### Client-Side Validation Logic (jQuery/JavaScript)
+</div>
 
 @section Scripts {
     <script>
@@ -58,18 +87,15 @@
 
                 var isValid = true;
 
-                // Reset all error messages
                 $('.text-danger').text('');
 
-                // --- 1. Name Validation ---
                 if ($('#txtName').val().trim() === '') {
                     $('#nameError').text('Customer Name is required.');
                     isValid = false;
                 }
 
-                // --- 2. Email Validation ---
                 var email = $('#txtEmail').val().trim();
-                var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                var emailRegex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
                 if (email === '') {
                     $('#emailError').text('Email Address is required.');
                     isValid = false;
@@ -78,9 +104,7 @@
                     isValid = false;
                 }
 
-                // --- 3. Phone Validation ---
                 var phone = $('#txtPhone').val().trim();
-                // Check if it's empty OR contains non-digit characters OR less than 10 digits
                 if (phone === '') {
                     $('#phoneError').text('Phone Number is required.');
                     isValid = false;
@@ -89,11 +113,10 @@
                     isValid = false;
                 }
 
-                // Prevent form submission if any validation fails
                 if (!isValid) {
                     e.preventDefault();
                 }
             });
         });
     </script>
-}*@
+}
